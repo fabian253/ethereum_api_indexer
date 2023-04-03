@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  ethereumapiindexer:
+    image: ethereumapiindexer
+    build:
+      context: .
+      dockerfile: ./Dockerfile

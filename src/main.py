@@ -59,27 +59,27 @@ if __name__ == "__main__":
 
             if not sql_db_connector.is_contract_in_db(config.SQL_DATABASE_TABLE_CONTRACT, contract_address):
 
-                contract_abi = etherscan_connector.get_contract_abi(
-                    contract_address)
+                try:
+                    contract_abi = etherscan_connector.get_contract_abi(
+                        contract_address)
 
-                if contract_abi is not None:
+                    if contract_abi is not None:
 
-                    contract_metadata = infura_execution_client.get_contract_metadata(
-                        contract_address, contract_abi)
+                        contract_metadata = infura_execution_client.get_contract_metadata(
+                            contract_address, contract_abi)
 
-                    contract_implemented_token_standards = infura_execution_client.get_contract_implemented_token_standards(
-                        contract_address, contract_abi)
+                        contract_implemented_token_standards = infura_execution_client.get_contract_implemented_token_standards(
+                            contract_address, contract_abi)
 
-                    try:
                         sql_db_connector.insert_contract_data(
                             config.SQL_DATABASE_TABLE_CONTRACT, contract_address, contract_metadata, contract_implemented_token_standards, contract_abi)
 
                         inserted_contract_counter += 1
-                    except:
-                        print(
-                            f"Contract {contract_address} error while inserting.")
 
-                    print(f"Contract {contract_address} inserted.")
+                        print(f"Contract {contract_address} inserted.")
+                except:
+                    print(
+                        f"Contract {contract_address} error while inserting.")
 
         print(
             f"Block {block_identifier} done, inserted {inserted_contract_counter} contracts. [{block_idx+1}/{block_count}]")

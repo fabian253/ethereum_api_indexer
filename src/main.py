@@ -4,6 +4,7 @@ from connectors.execution_client_connector import ExecutionClientConnector, Toke
 import db_metadata.sql_tables as tables
 import config
 import json
+import os
 
 
 # init sql database connector
@@ -35,14 +36,18 @@ infura_execution_client = ExecutionClientConnector(
     infura_execution_client_url, config.ETHERSCAN_URL, config.ETHERSCAN_API_KEY, token_standards)
 
 # init connectors
-
 etherscan_connector = EtherscanConnector(
     config.ETHERSCAN_URL, config.ETHERSCAN_API_KEY)
 
-if __name__ == "__main__":
-    block_count = config.INDEXING_END_BLOCK+1 - config.INDEXING_START_BLOCK
+# read indexing conf from environment variables
+indexing_start_block = int(os.getenv("start_block"))
+indexing_end_block = int(os.getenv("end_block"))
 
-    for block_idx, block_identifier in enumerate(range(config.INDEXING_START_BLOCK, config.INDEXING_END_BLOCK+1)):
+
+if __name__ == "__main__":
+    block_count = indexing_end_block+1 - indexing_start_block
+
+    for block_idx, block_identifier in enumerate(range(indexing_start_block, indexing_end_block+1)):
 
         block = execution_client.get_block(block_identifier, True)
 

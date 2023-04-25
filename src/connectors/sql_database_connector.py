@@ -111,11 +111,12 @@ class SqlDatabaseConnector:
 
         return data_type_dict
 
-    def insert_contract_data(self, table_name: str, contract_address: str, contract_metadata: dict, contract_implemented_token_standards: dict, contract_abi):
+    def insert_contract_data(self, table_name: str, contract_address: str, contract_metadata: dict, block_minted: Union[int, None],  contract_implemented_token_standards: dict, contract_abi):
         data = {
             "contract_address": contract_address,
             "name": contract_metadata["name"],
             "symbol": contract_metadata["symbol"],
+            "block_minted": block_minted,
             "total_supply": contract_metadata["total_supply"],
         }
 

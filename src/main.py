@@ -73,11 +73,14 @@ if __name__ == "__main__":
                         contract_metadata = infura_execution_client.get_contract_metadata(
                             contract_address, contract_abi)
 
+                        block_minted = infura_execution_client.get_contract_mint_block(
+                            contract_address)
+
                         contract_implemented_token_standards = infura_execution_client.get_contract_implemented_token_standards(
                             contract_address, contract_abi)
 
                         sql_db_connector.insert_contract_data(
-                            config.SQL_DATABASE_TABLE_CONTRACT, contract_address, contract_metadata, contract_implemented_token_standards, contract_abi)
+                            config.SQL_DATABASE_TABLE_CONTRACT, contract_address, contract_metadata, block_minted, contract_implemented_token_standards, contract_abi)
 
                         inserted_contract_counter += 1
 

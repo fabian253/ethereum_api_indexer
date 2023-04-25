@@ -81,6 +81,26 @@ class ExecutionClientConnector:
 
         return response
 
+    def get_contract_mint_block(self, contract_address: str):
+        try:
+            event_filter = self.execution_client.eth.filter({
+                "fromBlock": 0,
+                "toBlock": "latest",
+                "address": contract_address
+            })
+
+            response = event_filter.get_all_entries()
+
+            if len(response) == 0:
+                return None
+
+            response = response[0]["blockNumber"]
+
+            return response
+
+        except ValueError as e:
+            return int(e.args[0]["data"]["from"], 16)
+
     def get_contract_metadata(self, contract_address: str, contract_abi=None):
         try:
             token_name = self.execute_contract_function(

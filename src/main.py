@@ -63,7 +63,6 @@ if __name__ == "__main__":
         for contract_address in contract_addresses:
 
             if not sql_db_connector.is_contract_in_db(config.SQL_DATABASE_TABLE_CONTRACT, contract_address):
-
                 try:
                     contract_abi = etherscan_connector.get_contract_abi(
                         contract_address)
@@ -85,6 +84,9 @@ if __name__ == "__main__":
                         inserted_contract_counter += 1
 
                         print(f"Contract {contract_address} inserted.")
+                    else:
+                        print(
+                            f"Contract {contract_address} error while inserting (no abi found).")
                 except:
                     print(
                         f"Contract {contract_address} error while inserting.")

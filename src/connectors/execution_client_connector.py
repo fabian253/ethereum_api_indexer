@@ -4,6 +4,7 @@ import json
 from enum import Enum
 from os import listdir
 
+timeout = 60
 
 TokenStandard = Enum("TokenStandard", [(token_standard.replace(
     ".json", ""), token_standard.replace(
@@ -22,7 +23,8 @@ class ExecutionClientConnector:
         self.etherscan_api_key = etherscan_api_key
         self.token_standards = token_standards
         # init execution client
-        self.execution_client = Web3(Web3.HTTPProvider(execution_client_url))
+        self.execution_client = Web3(Web3.HTTPProvider(
+            execution_client_url, request_kwargs={'timeout': timeout}))
 
     def get_block_number(self):
         response = self.execution_client.eth.get_block_number()
@@ -99,7 +101,10 @@ class ExecutionClientConnector:
             return response
 
         except ValueError as e:
-            return int(e.args[0]["data"]["from"], 16)
+            if "data" in e.args[0].keys():
+                return int(e.args[0]["data"]["from"], 16)
+            else:
+                return None
 
     def get_contract_metadata(self, contract_address: str, contract_abi=None):
         try:

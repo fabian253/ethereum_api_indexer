@@ -227,7 +227,7 @@ class SqlDatabaseConnector:
                     data[column] = True if data[column] == 1 else False
 
                 if data_type == "json":
-                    data[column] = json.loads(data[column].decode("utf-8"))
+                    data[column] = json.loads(data[column])
 
                 if data_type == "varchar" and data[column].isdigit():
                     data[column] = int(data[column])

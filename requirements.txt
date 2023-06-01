@@ -1,4 +1,4 @@
 # To ensure app dependencies are ported from your virtual environment/host machine into your container, run 'pip freeze > requirements.txt' in the terminal to overwrite this file
-web3==6.3.0
+web3==6.4.0
 # manually installed in Docker file due to resoltion error of protobuf with web3
 # mysql-connector-python==8.0.33
